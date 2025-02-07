@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  nestjs:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    volumes:
+      - ./api/nest-api:/app
+    ports:
+      - "3000:3000"
+    networks:
+      - app-networks
+
+  nextjs:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend/next-front:/app
+    ports:
+      - "4000:3000"
+    networks:
+      - app-networks
+
+networks:
+  app-networks:
+    driver: bridge
