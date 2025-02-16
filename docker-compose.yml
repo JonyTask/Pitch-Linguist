@@ -1,6 +1,21 @@
-version: "3.8"
+version: '3.8'
 
 services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: jony_newtype
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: app_database
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+      - ./docker/postgres/script:/docker-entrypoint-initdb.d
+      - ./docker/postgres/postgresql.conf:/etc/postgresql/postgresql.conf
+    ports:
+      - '5432:5432'
+    networks:
+      - app-networks
+
   nestjs:
     build:
       context: ./api
@@ -8,7 +23,7 @@ services:
     volumes:
       - ./api/nest-api:/app
     ports:
-      - "3000:3000"
+      - '3000:3000'
     networks:
       - app-networks
 
@@ -19,10 +34,13 @@ services:
     volumes:
       - ./frontend/next-front:/app
     ports:
-      - "4000:3000"
+      - '4000:3000'
     networks:
       - app-networks
 
 networks:
   app-networks:
     driver: bridge
+
+volumes:
+  postgres_volume:

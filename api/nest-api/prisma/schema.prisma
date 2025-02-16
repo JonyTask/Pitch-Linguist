@@ -1,0 +1,143 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  	provider = "prisma-client-js"
+}
+
+datasource db {
+  	provider = "postgresql"
+  	url      = env("DATABASE_URL")
+}
+
+model User {
+  	id                  BigInt    @default(autoincrement())   @id
+  	name                String    @db.VarChar(255)
+  	email               String    @db.VarChar(255)            @unique
+	password            String    @db.VarChar(255)
+	email_verified_at   DateTime? @default(now())
+	role_id             Int
+	profile_image       String?   @db.VarChar(255)
+    favorites           FavoritesClub[]
+    match_reviews       MatchReview[]
+    comments            Comment[]
+    followings          Following[] @relation("following")
+    followers           Following[] @relation("followed_by")
+    like_review         Like[]
+    stock_review        Stock[]
+	updated_at          DateTime  @default(now())
+	created_at          DateTime  @default(now())
+	deleted_at          DateTime? @default(now())
+
+    @@map("users")
+}
+
+model League {
+    id              BigInt      @default(autoincrement())   @id
+    league_name     String      @db.VarChar(255)
+    clubs           Club[]
+    created_at      DateTime    @default(now())
+
+    @@map("leagues")
+}
+
+model Club {
+    id          BigInt      @default(autoincrement())   @id
+    league      League      @relation(fields: [league_id], references: [id])
+    league_id   BigInt
+    favorites   FavoritesClub[] 
+    club_name   String      @db.VarChar(255)
+    home_teams  MatchReview[]   @relation("home_team")
+    away_teams  MatchReview[]   @relation("away_team")
+    updated_at  DateTime    @default(now())
+	created_at  DateTime    @default(now())
+
+    @@map("clubs")
+}
+
+model FavoritesClub {
+    id          BigInt      @default(autoincrement())   @id
+    user        User        @relation(fields: [user_id], references: [id])
+    user_id     BigInt      
+    club        Club        @relation(fields: [club_id], references: [id])
+    club_id     BigInt
+    created_at  DateTime    @default(now())
+
+    @@map("favorites_clubs")
+}
+
+model MatchReview {
+    id                  BigInt      @default(autoincrement())   @id
+    reviewer            User        @relation(fields: [reviewer_id], references: [id])
+    reviewer_id         BigInt
+    home_team           Club        @relation("home_team", fields: [home_team_id], references: [id])
+    home_team_id        BigInt
+    away_team           Club        @relation("away_team", fields: [away_team_id], references: [id])
+    away_team_id        BigInt
+    match_date          DateTime    @db.Date
+    kick_off_at         DateTime    @db.Time()
+    match_review_text   String?     @db.Text
+    highlight_url       String?     @db.VarChar(255)
+    status              Int?        @db.SmallInt
+    comments            Comment[]
+    likes               Like[]
+    stocks              Stock[]
+    updated_at          DateTime    @default(now())
+	created_at          DateTime    @default(now())
+	deleted_at          DateTime?   @default(now())
+
+    @@map("match_reviews")
+}
+
+model Comment {
+    id                  BigInt        @default(autoincrement())   @id
+    commentator         User          @relation(fields: [commentator_id], references: [id])
+    commentator_id      BigInt
+    match_review        MatchReview   @relation(fields: [match_review_id], references: [id])
+    match_review_id     BigInt
+    comment             String        @db.VarChar(255)
+    updated_at          DateTime      @default(now())
+	created_at          DateTime      @default(now())
+	deleted_at          DateTime?     @default(now())
+
+    @@map("comments")
+}
+
+model Following {
+    id              BigInt      @default(autoincrement())   @id
+    following       User        @relation("following", fields: [following_id], references: [id])
+    following_id    BigInt
+    followed        User        @relation("followed_by", fields: [followed_id], references: [id])
+    followed_id     BigInt
+	created_at      DateTime    @default(now())
+	deleted_at      DateTime?   @default(now())
+
+    @@map("followings")
+}
+
+model Like {
+    id                  BigInt        @default(autoincrement())   @id
+    stamper             User          @relation(fields: [stamper_id], references: [id])
+    stamper_id          BigInt
+    match_review        MatchReview   @relation(fields: [match_review_id], references: [id])
+    match_review_id     BigInt
+    created_at          DateTime      @default(now())
+	deleted_at          DateTime?     @default(now())
+
+    @@map("likes")
+}
+
+model Stock {
+    id                  BigInt        @default(autoincrement())   @id
+    stocker             User          @relation(fields: [stocker_id], references: [id])
+    stocker_id          BigInt
+    match_review        MatchReview   @relation(fields: [match_review_id], references: [id])
+    match_review_id     BigInt
+    created_at          DateTime      @default(now())
+	deleted_at          DateTime?     @default(now())
+
+    @@map("stocks")
+}
