@@ -15,6 +15,25 @@ services:
       - '5432:5432'
     networks:
       - app-networks
+  
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - 8080:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: jony_newtype@example.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      PGADMIN_PREFERENCES_JSON_FILE: /pgadmin/preferences.json
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      - ./docker/postgres/servers.json:/pgadmin4/servers.json
+      - ./docker/postgres/preferences.json:/pgadmin/preferences.json
+    depends_on:
+      - db
+    networks:
+      - app-networks
 
   nestjs:
     build:
@@ -44,3 +63,4 @@ networks:
 
 volumes:
   postgres_volume:
+  pgadmin-data:
