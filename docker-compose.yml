@@ -4,9 +4,9 @@ services:
   db:
     image: postgres:latest
     environment:
-      POSTGRES_USER: jony_newtype
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: app_database
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - postgres_volume:/var/lib/postgresql/data
       - ./docker/postgres/script:/docker-entrypoint-initdb.d
@@ -15,14 +15,16 @@ services:
       - '5432:5432'
     networks:
       - app-networks
+    env_file:
+      - .env
   
   pgadmin:
     image: dpage/pgadmin4:latest
     ports:
       - 8080:80
     environment:
-      PGADMIN_DEFAULT_EMAIL: jony_newtype@example.com
-      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_PASSWORD}
       PGADMIN_CONFIG_SERVER_MODE: "False"
       PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
       PGADMIN_PREFERENCES_JSON_FILE: /pgadmin/preferences.json
@@ -34,6 +36,8 @@ services:
       - db
     networks:
       - app-networks
+    env_file:
+      - .env
 
   nestjs:
     build:
