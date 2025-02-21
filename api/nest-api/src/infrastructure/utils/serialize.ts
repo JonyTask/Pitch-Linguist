@@ -1,5 +1,5 @@
 export class SerializeBigInt {
-    public static serialize<T>(input: T): T {
+    public static serialize(input: Object): Object {
         return JSON.parse(JSON.stringify(input, this.replacer));
     }
 
