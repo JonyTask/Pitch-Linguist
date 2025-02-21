@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Controller, Get, Logger, Param, Query } from "@nestjs/common";
 import { ClubService } from "./club.service";
 import { LeagueType } from "src/infrastructure/types/league.type";
 
@@ -14,5 +14,10 @@ export class ClubController {
     @Get(':league')
     fetchClubsByLeague(@Param('league') league: LeagueType) {
         return this.clubService.fetchClubsByLeague(league);
+    }
+
+    @Get('search/query')
+    searchClub(@Query('club_name') club_name: string) {
+        return this.clubService.searchClub(club_name);
     }
 }
