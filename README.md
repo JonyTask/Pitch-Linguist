@@ -6,3 +6,17 @@
 <img src="https://img.shields.io/badge/-TailWind CSS-007ACC.svg?logo=Tailwind-CSS&style=flat"> <img src="https://img.shields.io/badge/-Visual%20Studio%20Code-007ACC.svg?logo=visual-studio-code&style=flat">
 
 ## 環境構築
+
+1. ルートディレクトリにある.env.example → .env
+2. それぞれ環境変数を定義
+3. 以下のコマンド
+```
+docker compose up -d --build
+
+docker compose exec nestjs bash
+
+npx prisma migrate dev --name init
+
+npx ts-node ./prisma/seeder/user.factory.ts
+npx ts-node ./prisma/seeder/club.factory.ts
+```
