@@ -9,4 +9,9 @@ export class LeagueController {
     listup() {
         return this.leagueService.listupAllLeagues();
     }
+
+    @Get('related')
+    relatedClubs() {
+        return this.leagueService.relatedClubs();
+    }
 }
