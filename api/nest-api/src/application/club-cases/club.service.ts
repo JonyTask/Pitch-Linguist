@@ -4,6 +4,7 @@ import { LeagueType, NumEachLeague } from "src/infrastructure/types/league.type"
 import { SerializeBigInt } from "src/infrastructure/utils/serialize";
 import { ClubDto } from "./dto/club.dto";
 import { plainToInstance } from "class-transformer";
+import { ClubFavoriteDto } from "./dto/club.favorite.dto";
 
 @Injectable({})
 export class ClubService {
@@ -53,6 +54,20 @@ export class ClubService {
             return SerializeBigInt.serialize(dtoClub);
         } catch (error) {
             console.error('Error fetching clubs:', error);
+            throw error;
+        }
+    }
+
+    async addFavoriteClub(ClubFavoriteDto: ClubFavoriteDto) {
+        try {
+            return await this.prisma.favoritesClub.create({
+                data: {
+                    user: { connect: { id: ClubFavoriteDto.user_id } },
+                    club: { connect: { id: ClubFavoriteDto.club_id } },
+                }
+            });
+        } catch (error) {
+            console.error('add Favorite club:', error);
             throw error;
         }
     }
