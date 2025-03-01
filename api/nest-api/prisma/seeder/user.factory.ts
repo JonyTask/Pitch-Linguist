@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client"
 import { fakerJA } from '@faker-js/faker'
 import { faker } from '@faker-js/faker'
-import { User } from '@prisma/client'
 
 type MailAddress = `${string}@${string}.com`;
 
@@ -11,8 +10,7 @@ type FactoryUserProps = {
 }
 
 const fakeUser = (props?: FactoryUserProps) => {
-    const result: User = {
-        id: faker.number.bigInt(),
+    const result = {
         name: fakerJA.person.fullName(),
         email: faker.internet.email(),
         password: faker.internet.password({ length: 20 }),
