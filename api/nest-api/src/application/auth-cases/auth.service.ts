@@ -9,7 +9,16 @@ export class AuthService {
         @Inject(forwardRef(() => UsersService))
         private usersService: UsersService,
         private jwtService: JwtService
-    ) {}
+    ) { }
+    
+    async validateUser(email: string, password: string): Promise<any> {
+        const user = await this.usersService.findUser(email);
+        if (user && user.password === password) {
+            const { password, ...result } = user;
+            return result;
+        }
+        return null;
+    }
     
     async signIn(
         email: string,
@@ -20,7 +29,7 @@ export class AuthService {
             throw new UnauthorizedException();
         }
 
-        const userId = SerializeBigInt.serialize(user).toString();
+        const userId = SerializeBigInt.serialize(user.id).toString();
         
         const payload = { sub: userId, email: user.email };
         return {
