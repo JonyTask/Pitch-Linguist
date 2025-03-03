@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
 import { PrismaService } from "src/domain/prisma/prisma.service";
 import { LeagueDto } from "./dto/league.dto";
-import { SerializeBigInt } from "src/infrastructure/utils/serialize";
 import { LeagueRelatedDto } from "./dto/league.related.dto";
 
 @Injectable({})
@@ -13,7 +12,7 @@ export class LeagueService {
         try {
             const leagues = await this.prisma.league.findMany();
             const dtoLeagues = leagues.map(league => plainToInstance(LeagueDto, league));
-            return SerializeBigInt.serialize(dtoLeagues);
+            return dtoLeagues;
         } catch (error) {
             console.error('Error fetching leagues:', error);
             throw error;
@@ -28,7 +27,7 @@ export class LeagueService {
                 },
             });
             const dtoRelatedClubs = plainToInstance(LeagueRelatedDto, relatedClubs)
-            return SerializeBigInt.serialize(dtoRelatedClubs);
+            return dtoRelatedClubs;
         } catch (error) {
             console.error('Error fetching clubs:', error);
             throw error;

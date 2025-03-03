@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/domain/prisma/prisma.service";
 import { LeagueType, NumEachLeague } from "src/infrastructure/types/league.type";
-import { SerializeBigInt } from "src/infrastructure/utils/serialize";
 import { ClubDto } from "./dto/club.dto";
 import { plainToInstance } from "class-transformer";
 import { ClubFavoriteDto } from "./dto/club.favorite.dto";
@@ -14,8 +13,8 @@ export class ClubService {
         try {
             const clubs = await this.prisma.club.findMany();
             const dtoClubs = clubs.map(club => plainToInstance( ClubDto, club ));
-            // BigInt を文字列に変換してから返す
-            return SerializeBigInt.serialize(dtoClubs);
+            
+            return dtoClubs;
         } catch (error) {
             console.error('Error fetching clubs:', error);
             throw error;
@@ -34,7 +33,7 @@ export class ClubService {
                 }
             });
             const dtoClubs = clubs.map(club => plainToInstance(ClubDto, club));
-            return SerializeBigInt.serialize(dtoClubs);
+            return dtoClubs;
         } catch (error) {
             console.error('Error fetching clubs:', error);
             throw error;
@@ -43,15 +42,15 @@ export class ClubService {
 
     async searchClub(query: string) {
         try {
-            const search_club = await this.prisma.club.findMany({
+            const search_clubs = await this.prisma.club.findMany({
                 where: {
                     club_name: {
                         contains: query,
                     }
                 }
             });
-            const dtoClub = search_club.map(club => plainToInstance(ClubDto, club));
-            return SerializeBigInt.serialize(dtoClub);
+            const dtoClubs = search_clubs.map(club => plainToInstance(ClubDto, club));
+            return dtoClubs;
         } catch (error) {
             console.error('Error fetching clubs:', error);
             throw error;
