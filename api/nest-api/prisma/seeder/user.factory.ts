@@ -13,7 +13,7 @@ const fakeUser = (props?: FactoryUserProps) => {
     const result = {
         name: fakerJA.person.fullName(),
         email: faker.internet.email(),
-        password: faker.internet.password({ length: 20 }),
+        password: 'password',
         email_verified_at: faker.date.between({ from: '2025-01-01', to: Date.now() }),
         profile_image: null,
         role_id: 10,
