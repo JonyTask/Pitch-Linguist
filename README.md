@@ -1,3 +1,6 @@
+# Pitch-Linguist
+試合の評論メディア
+
 ## 使用技術一覧
 
 <img src="https://img.shields.io/badge/-Docker-2496ED.svg?logo=docker&style=flat"> <img src="https://img.shields.io/badge/-TypeScript-007ACC.svg?logo=typescript&style=flat">
