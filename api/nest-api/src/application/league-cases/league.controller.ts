@@ -10,7 +10,7 @@ export class LeagueController {
         return this.leagueService.listupAllLeagues();
     }
 
-    @Get('related')
+    @Get('related-clubs')
     relatedClubs() {
         return this.leagueService.relatedClubs();
     }

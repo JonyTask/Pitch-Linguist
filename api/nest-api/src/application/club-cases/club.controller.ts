@@ -12,7 +12,7 @@ export class ClubController {
         return this.clubService.listUpAllClubs();
     }
 
-    @Get(':league')
+    @Get('belongs-to/:league')
     fetchClubsByLeague(@Param('league') league: LeagueType) {
         return this.clubService.fetchClubsByLeague(league);
     }
