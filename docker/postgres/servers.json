@@ -6,8 +6,7 @@
             "Host": "db",
             "Port": 5432,
             "MaintenanceDB": "postgres",
-            "Username": "${POSTGRES_USER}",
-            "SSLMode": "require"
+            "Username": "jony_newtype"
         }
     }
 }
