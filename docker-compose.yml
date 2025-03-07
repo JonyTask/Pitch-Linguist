@@ -45,6 +45,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./api/nest-api:/app
+      - nestjs_node_modules:/app/node_modules
     ports:
       - '3000:3000'
     networks:
@@ -56,6 +57,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./frontend/next-front:/app
+      - nextjs_node_modules:/app/node_modules
     ports:
       - '4000:3000'
     networks:
@@ -68,3 +70,5 @@ networks:
 volumes:
   postgres_volume:
   pgadmin-data:
+  nestjs_node_modules:
+  nextjs_node_modules:
