@@ -1,0 +1,6 @@
+{
+    "name": "Pitch-Linguist",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "nestjs",
+    "workspaceFolder": "/app"
+}
