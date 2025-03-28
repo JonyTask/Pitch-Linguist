@@ -1,16 +1,16 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "src/domain/prisma/prisma.service";
+import { PrismaService } from "src/infrastructure/prisma/prisma.service";
 import { CreateMatchReviewDto } from "./dto/create.match.review.dto";
 import { plainToInstance } from "class-transformer";
 import { MatchReviewDto } from "./dto/match.review.dto";
 
 @Injectable()
 export class MatchReviewService {
-    constructor( private readonly prisma: PrismaService ) {}
+    constructor(private readonly prisma: PrismaService) { }
 
     async showUpMatchReview(matchReviewId: number) {
         try {
-            const matchReview =  await this.prisma.matchReview.findUnique({
+            const matchReview = await this.prisma.matchReview.findUnique({
                 where: {
                     id: matchReviewId
                 },
@@ -27,5 +27,5 @@ export class MatchReviewService {
         }
     };
 
-    async createMatchReview(createMatchReviewDto: CreateMatchReviewDto){}
+    async createMatchReview(createMatchReviewDto: CreateMatchReviewDto) { }
 }

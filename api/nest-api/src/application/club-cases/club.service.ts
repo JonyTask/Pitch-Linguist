@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "src/domain/prisma/prisma.service";
+import { PrismaService } from "src/infrastructure/prisma/prisma.service";
 import { LeagueType, NumEachLeague } from "src/infrastructure/types/league.type";
 import { ClubDto } from "./dto/club.dto";
 import { plainToInstance } from "class-transformer";
@@ -7,13 +7,13 @@ import { ClubFavoriteDto } from "./dto/club.favorite.dto";
 
 @Injectable({})
 export class ClubService {
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly prisma: PrismaService) { }
 
-    async listUpAllClubs(){
+    async listUpAllClubs() {
         try {
             const clubs = await this.prisma.club.findMany();
-            const dtoClubs = clubs.map(club => plainToInstance( ClubDto, club ));
-            
+            const dtoClubs = clubs.map(club => plainToInstance(ClubDto, club));
+
             return dtoClubs;
         } catch (error) {
             console.error('Error fetching clubs:', error);

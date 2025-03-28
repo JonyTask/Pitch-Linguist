@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
-import { PrismaService } from "src/domain/prisma/prisma.service";
+import { PrismaService } from "src/infrastructure/prisma/prisma.service";
 import { LeagueDto } from "./dto/league.dto";
 import { LeagueRelatedDto } from "./dto/league.related.dto";
 
