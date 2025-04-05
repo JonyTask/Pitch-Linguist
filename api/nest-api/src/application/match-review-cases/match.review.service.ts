@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Request } from "@nestjs/common";
 import { PrismaService } from "src/infrastructure/prisma/prisma.service";
 import { CreateMatchReviewDto } from "./dto/create.match.review.dto";
 import { plainToInstance } from "class-transformer";
@@ -27,5 +27,24 @@ export class MatchReviewService {
         }
     };
 
-    async createMatchReview(createMatchReviewDto: CreateMatchReviewDto) { }
+    async createMatchReview(@Request() req, createMatchReviewDto: CreateMatchReviewDto) {
+        try {
+            const userId = req.user.userId;
+            return await this.prisma.matchReview.create({
+                data: {
+                    reviewer_id: userId,
+                    home_team_id: createMatchReviewDto.home_team_id,
+                    away_team_id: createMatchReviewDto.away_team_id,
+                    match_date: createMatchReviewDto.match_date,
+                    kick_off_at: createMatchReviewDto.kick_off_at,
+                    match_review_text: createMatchReviewDto.match_review_text,
+                    highlight_url: createMatchReviewDto.highlight_url,
+                    status: 0
+                }
+            });
+        } catch (error) {
+            console.error('Error create match-review:', error);
+            throw error;
+        }
+    }
 }

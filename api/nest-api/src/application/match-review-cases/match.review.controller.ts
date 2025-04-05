@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Req, UseGuards } from "@nestjs/common";
 import { MatchReviewService } from "./match.review.service";
 import { CreateMatchReviewDto } from "./dto/create.match.review.dto";
+import { JwtAuthGuard } from "../auth-cases/guard/jwt-auth.guard";
 
 @Controller('match-reviews')
 export class MatchReviewController {
@@ -11,8 +12,9 @@ export class MatchReviewController {
         return this.matchReviewService.showUpMatchReview(matchReviewId);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('create')
-    createMatchReview(@Body() createMatchReviewDto: CreateMatchReviewDto) {
-        return this.matchReviewService.createMatchReview(createMatchReviewDto);
+    createMatchReview(@Req() req, @Body() createMatchReviewDto: CreateMatchReviewDto) {
+        return this.matchReviewService.createMatchReview(req, createMatchReviewDto);
     }
 }
