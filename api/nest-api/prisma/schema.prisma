@@ -140,5 +140,6 @@ model Stock {
     created_at          DateTime      @default(now())
 	deleted_at          DateTime?     @default(now())
 
+    @@unique([stocker_id, match_review_id], name: "unique_stocker_match_review")
     @@map("stocks")
 }

@@ -114,6 +114,9 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 -- CreateIndex
 CREATE UNIQUE INDEX "likes_stamper_id_match_review_id_key" ON "likes"("stamper_id", "match_review_id");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "stocks_stocker_id_match_review_id_key" ON "stocks"("stocker_id", "match_review_id");
+
 -- AddForeignKey
 ALTER TABLE "clubs" ADD CONSTRAINT "clubs_league_id_fkey" FOREIGN KEY ("league_id") REFERENCES "leagues"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
