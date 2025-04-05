@@ -7,7 +7,6 @@ export class LikeService {
     constructor(private readonly prisma: PrismaService) { }
     
     async toggleLikeState(@Request() req, insert_match_review_id: bigint) {
-        console.log(insert_match_review_id);
         try {
             const userId = req.user.userId;
             const existingLike = await this.prisma.like.findUnique({
