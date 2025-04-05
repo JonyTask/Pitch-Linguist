@@ -6,10 +6,10 @@ export class LikeDto {
     match_review_id: bigint
 
     @Exclude()
-    updated_at: Date
+    created_at: Date
 
     @Exclude()
-    created_at: Date
+    deleted_at: Date
 
     constructor(partial: Partial<LikeDto>) {
         Object.assign(this, partial);
