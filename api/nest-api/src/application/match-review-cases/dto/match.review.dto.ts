@@ -30,10 +30,10 @@ export class MatchReviewDto {
     away_team_id: number
 
     @Exclude()
-    created_at: Date
-
-    @Exclude()
     updated_at: Date
+    
+    @Exclude()
+    created_at: Date
 
     @Exclude()
     deleted_at: Date
