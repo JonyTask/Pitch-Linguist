@@ -127,6 +127,7 @@ model Like {
     created_at          DateTime      @default(now())
 	deleted_at          DateTime?     @default(now())
 
+    @@unique([stamper_id, match_review_id], name: "unique_stamper_match_review")
     @@map("likes")
 }
 
