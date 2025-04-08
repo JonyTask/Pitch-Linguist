@@ -115,6 +115,7 @@ model Following {
 	created_at      DateTime    @default(now())
 	deleted_at      DateTime?   @default(now())
 
+    @@unique([following_id, followed_id], name: "unique_following_followed")
     @@map("followings")
 }
 

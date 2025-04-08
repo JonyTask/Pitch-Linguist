@@ -91,7 +91,7 @@ CREATE TABLE "likes" (
     "id" BIGSERIAL NOT NULL,
     "stamper_id" BIGINT NOT NULL,
     "match_review_id" BIGINT NOT NULL,
-    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,    
     "deleted_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "likes_pkey" PRIMARY KEY ("id")
@@ -110,6 +110,9 @@ CREATE TABLE "stocks" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "followings_following_id_followed_id_key" ON "followings"("following_id", "followed_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "likes_stamper_id_match_review_id_key" ON "likes"("stamper_id", "match_review_id");
