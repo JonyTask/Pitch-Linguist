@@ -5,26 +5,12 @@ import { PrismaService } from "src/infrastructure/prisma/prisma.service";
 export class ToggleEvent {
     constructor(private readonly prisma: PrismaService) {}
 
-    selectedKey: string = '';
-    private readonly likeModel: string = 'like';
-    private readonly likeKey: string = 'stamper';
-    private readonly stockModel: string = 'stock';
-    private readonly stockKey: string = 'stocker';
-
-    async checkExists(insertDB: string, userId: bigint, insert_match_review_id: bigint) {
-        if (insertDB == this.likeModel) {
-            this.selectedKey = this.likeKey;
-        } else if (insertDB == this.stockModel) {
-            this.selectedKey = this.stockKey;
-        }
-
-        const selectedUniqueKey = `unique_${this.selectedKey}_match_review`;
-        const selectedId = `${this.selectedKey}_id`;
+    async checkExists(insertDB: string, activeKey: string, passiveKey: string, uniqueKey: string, userId: bigint, passiveId: bigint) {
         const existedBool = await this.prisma[insertDB].findUnique({
             where: {
-                [selectedUniqueKey]: {
-                    [selectedId]: userId,
-                    match_review_id: insert_match_review_id
+                [uniqueKey]: {
+                    [activeKey]: userId,
+                    [passiveKey]: passiveId
                 }
             }
         });
@@ -32,21 +18,21 @@ export class ToggleEvent {
         if (existedBool) {
             await this.prisma[insertDB].delete({
                 where: {
-                    [selectedUniqueKey]: {
-                        [selectedId]: userId,
-                        match_review_id: insert_match_review_id
+                    [uniqueKey]: {
+                        [activeKey]: userId,
+                        [passiveKey]: passiveId
                     }
                 }
             });
-            return { message: `${selectedUniqueKey} removed` };
+            return { message: `${uniqueKey} removed` };
         } else {
             await this.prisma[insertDB].create({
                 data: {    
-                    [selectedId]: userId,
-                    match_review_id: insert_match_review_id
+                    [activeKey]: userId,
+                    [passiveKey]: passiveId
                 }
             });
-            return { message: `${selectedUniqueKey} added` };
+            return { message: `${uniqueKey} added` };
         }
     }
 }
