@@ -1,6 +1,9 @@
 -- 作成したDBへ切り替え
 \c app_database
 
+-- Timezoneの設定
+SET timezone TO 'Asia/Tokyo';
+
 -- スキーマ作成
 CREATE SCHEMA appschema;
 
