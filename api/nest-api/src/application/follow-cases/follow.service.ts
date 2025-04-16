@@ -13,7 +13,14 @@ export class FollowService {
     async toggleFollowState(@Request() req, insert_followed_id: bigint) {
         try {
             const userId = req.user.userId;
-            return this.toggleEvent.checkExists(this.followModel, this.activeKey, this.passiveKey, this.uniqueKey, userId, insert_followed_id);
+            return this.toggleEvent.checkExists(
+                this.followModel,
+                this.activeKey,
+                this.passiveKey,
+                this.uniqueKey,
+                userId,
+                insert_followed_id
+            );
         } catch (error) {
             console.error('toggle like state :', error);
             throw error;

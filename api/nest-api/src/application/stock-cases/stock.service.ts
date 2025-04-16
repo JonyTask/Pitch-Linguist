@@ -14,7 +14,14 @@ export class StockService {
     async toggleStockState(@Request() req, insert_match_review_id: bigint) {
         try {
             const userId = req.user.userId;
-            return this.toggleEvent.checkExists(this.stockModel, this.activeKey, this.passiveKey, this.uniqueKey, userId, insert_match_review_id);
+            return this.toggleEvent.checkExists(
+                this.stockModel,
+                this.activeKey,
+                this.passiveKey,
+                this.uniqueKey,
+                userId,
+                insert_match_review_id
+            );
         } catch (error) {
             console.error('toggle stock state :', error);
             throw error;
